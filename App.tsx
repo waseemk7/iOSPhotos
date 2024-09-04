@@ -1,7 +1,10 @@
 import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
 import {
   FlatList,
   Image,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   ScrollView,
   StyleSheet,
   useWindowDimensions,
@@ -12,6 +15,19 @@ import Carousel from "./Carousel";
 
 export default function App() {
   const { height, width } = useWindowDimensions();
+  const [headerCarouselPage, setHeaderCarouselPage] = useState(0);
+
+  const onHeaderCarouselScroll = (
+    e: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
+    const curPage = Math.max(
+      0,
+      Math.floor((e.nativeEvent.contentOffset.x + width / 2) / width)
+    );
+    if (curPage !== headerCarouselPage) {
+      setHeaderCarouselPage(curPage);
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -22,6 +38,7 @@ export default function App() {
         snapToAlignment="start"
         decelerationRate="fast"
         showsHorizontalScrollIndicator={false}
+        onScroll={onHeaderCarouselScroll}
       >
         <FlatList
           style={{ width }}
@@ -53,18 +70,21 @@ export default function App() {
         style={{
           padding: 10,
           justifyContent: "center",
+          alignItems: "center",
           flexDirection: "row",
           gap: 5,
         }}
       >
         {Array(3)
           .fill(0)
-          .map(() => (
+          .map((item, index) => (
             <View
+              key={index}
               style={{
-                width: 10,
-                height: 10,
-                backgroundColor: "gray",
+                width: index === headerCarouselPage ? 10 : 8,
+                aspectRatio: 1,
+                backgroundColor:
+                  index === headerCarouselPage ? "black" : "gray",
                 borderRadius: 5,
               }}
             />
