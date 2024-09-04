@@ -15,7 +15,7 @@ const Carousel = ({ title, photos }: Carousel) => {
         showsHorizontalScrollIndicator={false}
       >
         {photos.map((photo) => (
-          <Image source={photo.image} style={styles.image} />
+          <Image key={photo.id} source={photo.image} style={styles.image} />
         ))}
       </ScrollView>
     </View>
