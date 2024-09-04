@@ -1,12 +1,11 @@
 import { View, Text, ScrollView, Image, StyleSheet } from "react-native";
-import { photos } from "./data";
 
 type Carousel = {
   title: string;
   photos: any[];
 };
 
-const Carousel = ({ title }: Carousel) => {
+const Carousel = ({ title, photos }: Carousel) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
