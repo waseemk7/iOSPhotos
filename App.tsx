@@ -49,6 +49,27 @@ export default function App() {
           resizeMode="cover"
         />
       </ScrollView>
+      <View
+        style={{
+          padding: 10,
+          justifyContent: "center",
+          flexDirection: "row",
+          gap: 5,
+        }}
+      >
+        {Array(3)
+          .fill(0)
+          .map(() => (
+            <View
+              style={{
+                width: 10,
+                height: 10,
+                backgroundColor: "gray",
+                borderRadius: 5,
+              }}
+            />
+          ))}
+      </View>
       <Carousel title="Albums" photos={photos.slice(0, 10)} />
       <Carousel title="People" photos={photos.slice(3, 6)} />
       <Carousel title="Featured" photos={photos.slice(6, 9)} />
