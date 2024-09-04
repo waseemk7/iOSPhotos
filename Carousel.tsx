@@ -13,6 +13,9 @@ const Carousel = ({ title, photos }: Carousel) => {
         horizontal
         contentContainerStyle={styles.images}
         showsHorizontalScrollIndicator={false}
+        snapToAlignment="start"
+        snapToInterval={250 + 15}
+        decelerationRate="fast"
       >
         {photos.map((photo) => (
           <Image key={photo.id} source={photo.image} style={styles.image} />

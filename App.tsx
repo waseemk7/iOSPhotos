@@ -31,7 +31,7 @@ export default function App() {
           )}
         />
       </View>
-      <Carousel title="Albums" photos={photos.slice(0, 2)} />
+      <Carousel title="Albums" photos={photos.slice(0, 10)} />
       <Carousel title="People" photos={photos.slice(3, 6)} />
       <Carousel title="Featured" photos={photos.slice(6, 9)} />
       <StatusBar style="auto" />
