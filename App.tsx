@@ -7,9 +7,14 @@ export default function App() {
     <View style={styles.container}>
       <FlatList
         data={photos}
-        numColumns={5}
+        numColumns={4}
+        contentContainerStyle={{ gap: 2 }}
+        columnWrapperStyle={{ gap: 2 }}
         renderItem={({ item }) => (
-          <Image source={item.image} style={{ width: 100, height: 100 }} />
+          <Image
+            source={item.image}
+            style={{ width: `${100 / 4}%`, aspectRatio: 1 }}
+          />
         )}
       />
       <StatusBar style="auto" />
