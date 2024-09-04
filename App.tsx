@@ -1,10 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import { photos } from "./data";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Edit App.tsx to start working on your app! </Text>
+      <FlatList
+        data={photos}
+        numColumns={5}
+        renderItem={({ item }) => (
+          <Image source={item.image} style={{ width: 100, height: 100 }} />
+        )}
+      />
       <StatusBar style="auto" />
     </View>
   );
@@ -13,8 +20,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
   },
 });
