@@ -10,8 +10,9 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { photos } from "./data";
-import Carousel from "./Carousel";
+import { photos } from "../data";
+import Carousel from "../Carousel";
+import { Link } from "expo-router";
 
 export default function App() {
   const { height, width } = useWindowDimensions();
@@ -90,6 +91,8 @@ export default function App() {
             />
           ))}
       </View>
+
+      <Link href="/photo" >Go to photo</Link>
       <Carousel title="Albums" photos={photos.slice(0, 10)} />
       <Carousel title="People" photos={photos.slice(3, 6)} />
       <Carousel title="Featured" photos={photos.slice(6, 9)} />
