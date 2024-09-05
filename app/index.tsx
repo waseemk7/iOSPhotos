@@ -5,6 +5,7 @@ import {
   Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Pressable,
   ScrollView,
   StyleSheet,
   useWindowDimensions,
@@ -50,10 +51,14 @@ export default function App() {
           scrollEnabled={false}
           inverted
           renderItem={({ item }) => (
-            <Image
-              source={item.image}
-              style={{ width: `${100 / 4}%`, aspectRatio: 1 }}
-            />
+            <Link href={`/photo/${item.id}`} asChild>
+              <Pressable style={{ width: `${100 / 4}%`, aspectRatio: 1 }}>
+                <Image
+                  source={item.image}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </Pressable>
+            </Link>
           )}
         />
         <Image
@@ -92,7 +97,6 @@ export default function App() {
           ))}
       </View>
 
-      <Link href="/photo" >Go to photo</Link>
       <Carousel title="Albums" photos={photos.slice(0, 10)} />
       <Carousel title="People" photos={photos.slice(3, 6)} />
       <Carousel title="Featured" photos={photos.slice(6, 9)} />
