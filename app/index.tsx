@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -14,10 +14,26 @@ import {
 import { photos } from "../data";
 import Carousel from "../Carousel";
 import { Link } from "expo-router";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 export default function App() {
   const { height, width } = useWindowDimensions();
   const [headerCarouselPage, setHeaderCarouselPage] = useState(0);
+
+  const scale = useSharedValue(1.5);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  useEffect(() => {
+    scale.value = 1.5;
+    scale.value = withTiming(1, { duration: 5000 });
+  }, [headerCarouselPage]);
 
   const onHeaderCarouselScroll = (
     e: NativeSyntheticEvent<NativeScrollEvent>
@@ -62,13 +78,15 @@ export default function App() {
           )}
         />
         <View style={{ width, height: "100%", overflow: "hidden" }}>
-          <Image
+          <Animated.Image
             source={photos[0].image}
-            style={{
-              width: "100%",
-              height: "100%",
-              transform: [{ scale: 1.5 }],
-            }}
+            style={[
+              {
+                width: "100%",
+                height: "100%",
+              },
+              animatedStyle,
+            ]}
             resizeMode="cover"
           />
         </View>
