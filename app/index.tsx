@@ -61,11 +61,17 @@ export default function App() {
             </Link>
           )}
         />
-        <Image
-          source={photos[0].image}
-          style={{ width, height: "100%" }}
-          resizeMode="cover"
-        />
+        <View style={{ width, height: "100%", overflow: "hidden" }}>
+          <Image
+            source={photos[0].image}
+            style={{
+              width: "100%",
+              height: "100%",
+              transform: [{ scale: 1.5 }],
+            }}
+            resizeMode="cover"
+          />
+        </View>
         <Image
           source={photos[10].image}
           style={{ width, height: "100%" }}
