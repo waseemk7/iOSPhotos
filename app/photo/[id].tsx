@@ -7,6 +7,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useEffect } from "react";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 const PhotosScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -18,24 +19,25 @@ const PhotosScreen = () => {
     transform: [{ scale: scale.value }],
   }));
 
-  useEffect(() => {
-    scale.value = 1;
-    scale.value = withTiming(2, { duration: 5000 });
-  }, []);
-
   if (!photo) {
     return <Text>Photo not found</Text>;
   }
 
+  const gesture = Gesture.Pinch().onChange((e) => {
+    scale.value = e.scale;
+  });
+
   return (
-    <Animated.Image
-      source={photo?.image}
-      style={[
-        { width: "100%", height: "100%", transform: [{ scale: 1.5 }] },
-        animatedStyle,
-      ]}
-      resizeMode="contain"
-    />
+    <GestureDetector gesture={gesture}>
+      <Animated.Image
+        source={photo?.image}
+        style={[
+          { width: "100%", height: "100%", transform: [{ scale: 1.5 }] },
+          animatedStyle,
+        ]}
+        resizeMode="contain"
+      />
+    </GestureDetector>
   );
 };
 
