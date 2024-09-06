@@ -23,9 +23,13 @@ const PhotosScreen = () => {
     return <Text>Photo not found</Text>;
   }
 
-  const gesture = Gesture.Pinch().onChange((e) => {
-    scale.value = e.scale;
-  });
+  const gesture = Gesture.Pinch()
+    .onChange((e) => {
+      scale.value = e.scale;
+    })
+    .onEnd(() => {
+      scale.value = withTiming(1);
+    });
 
   return (
     <GestureDetector gesture={gesture}>
