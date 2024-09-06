@@ -24,15 +24,15 @@ export default function App() {
   const { height, width } = useWindowDimensions();
   const [headerCarouselPage, setHeaderCarouselPage] = useState(0);
 
-  const scale = useSharedValue(1.5);
+  const scale = useSharedValue(1.2);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
 
   useEffect(() => {
-    scale.value = 1.5;
-    scale.value = withTiming(1, { duration: 5000 });
+    scale.value = 1.2;
+    scale.value = withTiming(1, { duration: 6000 });
   }, [headerCarouselPage]);
 
   const onHeaderCarouselScroll = (
@@ -90,11 +90,19 @@ export default function App() {
             resizeMode="cover"
           />
         </View>
-        <Image
-          source={photos[10].image}
-          style={{ width, height: "100%" }}
-          resizeMode="cover"
-        />
+        <View style={{ width, height: "100%", overflow: "hidden" }}>
+          <Animated.Image
+            source={photos[10].image}
+            style={[
+              {
+                width: "100%",
+                height: "100%",
+              },
+              animatedStyle,
+            ]}
+            resizeMode="cover"
+          />
+        </View>
       </ScrollView>
       <View
         style={{
