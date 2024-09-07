@@ -1,7 +1,8 @@
 import { Image, Text } from "react-native";
 import { photos } from "../../data";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import Animated, {
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -11,6 +12,7 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 const PhotosScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const router = useRouter();
 
   const photo = photos.find((p) => p.id === Number.parseInt(id));
 
@@ -27,8 +29,12 @@ const PhotosScreen = () => {
     .onChange((e) => {
       scale.value = e.scale;
     })
-    .onEnd(() => {
-      scale.value = withTiming(1);
+    .onEnd((e) => {
+      if (e.velocity < 0) {
+        runOnJS(router.back)();
+      } else {
+        scale.value = withTiming(1);
+      }
     });
 
   return (
