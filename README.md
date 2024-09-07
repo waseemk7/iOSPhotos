@@ -1,0 +1,1 @@
+Created a dynamic clone of the iOS 18 Photos app using React Native, Expo, and Reanimated. This project showcases the use of advanced animations and seamless user interactions, highlighting the powerful capabilities of these tools
