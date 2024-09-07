@@ -25,6 +25,7 @@ export default function App() {
   const [headerCarouselPage, setHeaderCarouselPage] = useState(0);
 
   const scale = useSharedValue(1.2);
+  const pageScrollViewPosition = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -34,6 +35,10 @@ export default function App() {
     scale.value = 1.2;
     scale.value = withTiming(1, { duration: 6000 });
   }, [headerCarouselPage]);
+
+  const onPageScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    pageScrollViewPosition.value = e.nativeEvent.contentOffset.y;
+  };
 
   const onHeaderCarouselScroll = (
     e: NativeSyntheticEvent<NativeScrollEvent>
@@ -48,7 +53,7 @@ export default function App() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} onScroll={onPageScroll}>
       <ScrollView
         horizontal
         style={{ height: height / 2 }}
