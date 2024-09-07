@@ -15,6 +15,7 @@ import { photos } from "../data";
 import Carousel from "../Carousel";
 import { Link } from "expo-router";
 import Animated, {
+  useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
@@ -31,6 +32,9 @@ export default function App() {
   const gestureScrollPosition = useSharedValue(height / 2);
   const scrollMode = useSharedValue<"PAGE" | "GESTURE" | "FLAT_LIST">("PAGE");
   const pageScrollEnabled = useDerivedValue(() => scrollMode.value === "PAGE");
+  const flatlistScrollEnabled = useDerivedValue(
+    () => scrollMode.value === "FLAT_LIST"
+  );
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -48,6 +52,12 @@ export default function App() {
     }
   };
 
+  const onFlatListScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (e.nativeEvent.contentOffset.y < 0 && scrollMode.value === "FLAT_LIST") {
+      scrollMode.value = "GESTURE";
+    }
+  };
+
   const onHeaderCarouselScroll = (
     e: NativeSyntheticEvent<NativeScrollEvent>
   ) => {
@@ -59,6 +69,21 @@ export default function App() {
       setHeaderCarouselPage(curPage);
     }
   };
+
+  useAnimatedReaction(
+    () => gestureScrollPosition.value,
+    (current, previous) => {
+      if (current === previous) {
+        return;
+      }
+      if (current < height / 2 && scrollMode.value !== "PAGE") {
+        scrollMode.value = "PAGE";
+      }
+      if (current === height && scrollMode.value !== "FLAT_LIST") {
+        scrollMode.value = "FLAT_LIST";
+      }
+    }
+  );
 
   const gesture = Gesture.Pan()
     .onChange((e) => {
@@ -91,13 +116,14 @@ export default function App() {
             showsHorizontalScrollIndicator={false}
             onScroll={onHeaderCarouselScroll}
           >
-            <FlatList
+            <Animated.FlatList
               style={{ width }}
               data={photos}
               numColumns={4}
               contentContainerStyle={{ gap: 2 }}
               columnWrapperStyle={{ gap: 2 }}
-              scrollEnabled={false}
+              scrollEnabled={flatlistScrollEnabled}
+              onScroll={onFlatListScroll}
               inverted
               renderItem={({ item }) => (
                 <Link href={`/photo/${item.id}`} asChild>
